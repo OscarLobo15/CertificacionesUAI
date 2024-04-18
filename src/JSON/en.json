@@ -1,0 +1,30 @@
+{
+    "navbar": {
+      "home": "Home",
+      "certificates": "Certificates",
+      "myCertificates": "My Certificates",
+      "logOut": "Log Out",
+      "logIn": "Log In",
+      "account": "Profile"
+    },
+    "hero": {
+      "title": "UAI Certification Portal"
+    },
+    "careers": {
+      "title": "Careers",
+      "careerNames": {
+        "0": "Industrial Engineering",
+        "1": "Computer Engineering",
+        "2": "Mining Engineering",
+        "3": "Mechanical Engineering",
+        "4": "Energy Engineering",
+        "5": "Civil Engineering",
+        "6": "Bioengineering"
+      }
+    },
+    "button":{
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English"
+    }
+  }

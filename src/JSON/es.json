@@ -1,0 +1,30 @@
+{
+    "navbar": {
+      "home": "Inicio",
+      "certificates": "Certificados",
+      "myCertificates": "Mis Certificados",
+      "logOut": "Cerrar Sesión",
+      "logIn": "Iniciar Sesión",
+      "account": "Perfil"
+    },
+    "hero": {
+      "title": "Portal de Certificaciones UAI"
+    },
+    "careers": {
+      "title": "Carreras",
+      "careerNames": {
+        "0": "Ing Industrial",
+        "1": "Ing Informática",
+        "2": "Ing en Minas",
+        "3": "Ing Mecánica",
+        "4": "Ing en Energía",
+        "5": "Ing en obras civiles",
+        "6": "Bioingeniería"
+      }
+    },
+    "button":{
+      "language": "Idioma",
+      "spanish": "Español",
+      "english": "Inglés"
+    }
+  }

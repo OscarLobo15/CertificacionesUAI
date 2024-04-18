@@ -1,0 +1,120 @@
+/* Estilos generales */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-control:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos responsivos */
+
+/* Smartphone */
+@media (max-width: 767px) {
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .container {
+    padding: 30px;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .form-control {
+    font-size: 15px;
+    padding: 9px 14px;
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 9px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+  .container {
+    padding: 40px;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+
+  .form-control {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
