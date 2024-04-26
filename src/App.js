@@ -12,6 +12,7 @@ import Profile from './components/profile';
 import Carreras from './components/carreras';
 import LanguageSwitcher from './components/languageSwitcher';
 import Dashboard from './components/Dashboard';
+import Footer from './components/Footer';
 import './App.css';
 import './i18n';
 
@@ -40,6 +41,7 @@ function App() {
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/certificados/:id" element={<Certificados />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );
