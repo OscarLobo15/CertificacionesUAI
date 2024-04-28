@@ -1,11 +1,16 @@
 import React from 'react';
 import Hero from './hero';
 
-
 function Home() {
   return (
-    <div className="centered-content"> {/* Nuevo contenedor para centrar */}
+    <div>
       <Hero />
+      <div className="info-section">
+        <div className="info-content">
+          <h2>Información Certificaciones</h2>
+          <p>Aquí podrás encontrar certificados para tu especialidad y subir tus propias certificaciones.</p>
+        </div>
+      </div>
     </div>
   );
 }
