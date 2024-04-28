@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
+import '../CSS/dashboard.css';
 
 const Dashboard = () => {
   const [certificadosPorCarrera, setCertificadosPorCarrera] = useState({

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../CSS/carreras.css';
+import '../CSS/careers.css';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import '../CSS/certificados.css';
+import '../CSS/certificates.css';
 
 const certificadosPorCarrera = [
   [

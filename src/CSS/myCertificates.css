@@ -1,0 +1,72 @@
+.Container {
+  width: 100%;
+  max-width: 1200px; /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.upload-section {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.certificates-section {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.formStyle {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 10px 10px;
+  border-radius: 20px;
+  background-color: #5c5c5c;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.uploaded {
+  margin-top: 20px;
+}
+
+.output-div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inner-div {
+  flex: 1 0 25%; /* Muestra 4 elementos por fila */
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #ccc;
+}
+
+@media (max-width: 1024px) {
+  .inner-div {
+    flex: 1 0 33.33%; /* Muestra 3 elementos por fila en tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .inner-div {
+    flex: 1 0 50%; /* Muestra 2 elementos por fila en dispositivos medianos */
+  }
+}
+
+@media (max-width: 576px) {
+  .inner-div {
+    flex: 1 0 100%; /* Muestra 1 elemento por fila en smartphones */
+  }
+}

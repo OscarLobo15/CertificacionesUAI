@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
 import '../CSS/profile.css';
 
 function Profile() {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user } = useAuth0();
   const [input, setInput] = useState({
     name: user.name,
     nickname: user.nickname,
@@ -24,7 +25,7 @@ function Profile() {
     })
   }
 
-  function handleClick(event) {
+  async function handleClick(event) {
     event.preventDefault();
     const newUser = {
       name: input.name,
@@ -32,15 +33,15 @@ function Profile() {
       email: input.email,
       auth0Id: user.sub,
       role: input.role,
-      carrer:input.carrer ,
+      carrer: input.carrer,
     };
 
-    axios.post("http://localhost:3001/profile", newUser)
+    await axios.post("http://localhost:3001/profile", newUser);
   }
 
   return (
     <div className="container">
-      <h1>Formulario de ususario</h1>
+      <h1>Formulario de usuario</h1>
       <form>
         <div className="form-group">
           <input
@@ -49,7 +50,7 @@ function Profile() {
             value={user.name}
             autoComplete="off"
             className="form-control"
-            placeholder="name"
+            placeholder="Nombre"
             disabled
           />
         </div>
@@ -60,11 +61,10 @@ function Profile() {
             value={user.nickname}
             autoComplete="off"
             className="form-control"
-            placeholder="nickname"
+            placeholder="Apodo"
             disabled
           />
         </div>
-
         <div className="form-group">
           <input
             onChange={handleChange}
@@ -72,7 +72,7 @@ function Profile() {
             value={user.email}
             autoComplete="off"
             className="form-control"
-            placeholder="email"
+            placeholder="Email"
             disabled
           />
         </div>
@@ -80,10 +80,10 @@ function Profile() {
           <input
             onChange={handleChange}
             name="role"
-            value= "Estudiante"
+            value="Estudiante"
             autoComplete="off"
             className="form-control"
-            placeholder="rolee"
+            placeholder="Rol"
             disabled
           />
         </div>
@@ -94,13 +94,18 @@ function Profile() {
             value={input.carrer}
             autoComplete="off"
             className="form-control"
-            placeholder="Carrer"
+            placeholder="Carrera"
           />
         </div>
         <button onClick={handleClick} className="btn btn-lg btn-info">
           Guardar
         </button>
       </form>
+      <div className="mt-3">
+        <Link to="/estadisticas" className="btn btn-lg btn-primary">
+          Ver Estadísticas
+        </Link>
+      </div>
     </div>
   );
 }
