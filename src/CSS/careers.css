@@ -1,5 +1,5 @@
 /* Estilos generales */
-.carreras-grid {
+.careers-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -7,7 +7,7 @@
   height: 100vh;
 }
 
-.carrera-item {
+.career-item {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-.carrera-item::before {
+.career-item::before {
   content: "";
   position: absolute;
   top: 0;
@@ -29,7 +29,7 @@
   z-index: 0;
 }
 
-.carrera-item-overlay {
+.career-item-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -39,7 +39,7 @@
   z-index: 1;
 }
 
-.carrera-item a {
+.career-item a {
   font-size: 24px;
   position: relative;
   z-index: 2;
@@ -52,31 +52,31 @@
   padding: 20px;
 }
 
-.carrera-item:nth-child(1)::before {
+.career-item:nth-child(1)::before {
   background-image: url('../pictures/Industrial.jpg');
 }
 
-.carrera-item:nth-child(2)::before {
+.career-item:nth-child(2)::before {
   background-image: url('../pictures/Informática.jpg');
 }
 
-.carrera-item:nth-child(3)::before {
+.career-item:nth-child(3)::before {
   background-image: url('../pictures/Minería.jpg');
 }
 
-.carrera-item:nth-child(4)::before {
+.career-item:nth-child(4)::before {
   background-image: url('../pictures/Mecanica.jpg');
 }
 
-.carrera-item:nth-child(5)::before {
+.career-item:nth-child(5)::before {
   background-image: url('../pictures/Energía.jpg');
 }
 
-.carrera-item:nth-child(6)::before {
+.career-item:nth-child(6)::before {
   background-image: url('../pictures/Obras Civiles.jpg');
 }
 
-.carrera-item:nth-child(7)::before {
+.career-item:nth-child(7)::before {
   background-image: url('../pictures/Bioingeniería.jpg');
 }
 
@@ -90,14 +90,14 @@ h2 {
 
 /* Smartphone */
 @media (max-width: 767px) {
-  .carreras-grid {
+  .careers-grid {
     grid-template-columns: 1fr;
     gap: 10px;
     padding: 20px;
     height: auto;
   }
 
-  .carrera-item a {
+  .career-item a {
     font-size: 18px;
     padding: 10px;
   }
@@ -111,13 +111,13 @@ h2 {
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1199px) {
-  .carreras-grid {
+  .careers-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     padding: 25px;
   }
 
-  .carrera-item a {
+  .career-item a {
     font-size: 20px;
     padding: 15px;
   }
@@ -131,13 +131,13 @@ h2 {
 
 /* Desktop */
 @media (min-width: 1200px) {
-  .carreras-grid {
+  .careers-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 30px;
   }
 
-  .carrera-item a {
+  .career-item a {
     font-size: 24px;
     padding: 20px;
   }

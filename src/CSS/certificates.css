@@ -1,5 +1,5 @@
-/* Estilos generales */
-.certificados-container {
+/* General styles */
+.certificates-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,20 +9,20 @@
   width: 80%;
   margin: 0 auto;
 }
-.certificado a {
+.certificate a {
   color: #000; 
   text-decoration: none;
 }
 
-.certificados-grid {
-  display: flex; /* Cambiado de grid a flex */
-  flex-direction: column; /* Añadido para ordenar los elementos de arriba a abajo */
+.certificates-grid {
+  display: flex; /* Changed from grid to flex */
+  flex-direction: column; /* Added to arrange items from top to bottom */
   gap: 20px;
   max-width: 900px;
   width: 100%;
 }
 
-.certificado {
+.certificate {
   background-color: #f0f0f0;
   padding: 10px 20px;
   margin-bottom: 10px;
@@ -35,50 +35,50 @@
   justify-content: center;
   text-align: center;
 }
-.certificado {
+.certificate {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.certificado a {
+.certificate a {
   transition: color 0.2s ease;
 }
-.certificado {
+.certificate {
   border-radius: 4px;
 }
-.certificados-container {
+.certificates-container {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.certificados-container {
+.certificates-container {
   transition: background-color 0.2s ease;
 }
-.certificado {
+.certificate {
   background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
 }
-.certificado {
+.certificate {
   transition: background 0.2s ease;
 }
-.certificado {
+.certificate {
   border-bottom: 1px solid #ccc;
 }
-.certificado {
+.certificate {
   transition: border-bottom 0.2s ease;
 }
-.certificados-container {
+.certificates-container {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-/* Estilos responsivos */
+/* Responsive styles */
 
 /* Smartphone */
 @media (max-width: 767px) {
-  .certificados-container {
+  .certificates-container {
     padding: 10px;
     width: 90%;
   }
 
-  .certificados-grid {
+  .certificates-grid {
     gap: 10px;
   }
 
-  .certificado {
+  .certificate {
     padding: 8px 16px;
     height: auto;
   }
@@ -86,16 +86,16 @@
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1199px) {
-  .certificados-container {
+  .certificates-container {
     padding: 15px;
     width: 85%;
   }
 
-  .certificados-grid {
+  .certificates-grid {
     gap: 15px;
   }
 
-  .certificado {
+  .certificate {
     padding: 10px 20px;
     height: auto;
   }
@@ -103,16 +103,16 @@
 
 /* Desktop */
 @media (min-width: 1200px) {
-  .certificados-container {
+  .certificates-container {
     padding: 20px;
     width: 80%;
   }
 
-  .certificados-grid {
+  .certificates-grid {
     gap: 20px;
   }
 
-  .certificado {
+  .certificate {
     padding: 10px 20px;
     height: auto;
   }
