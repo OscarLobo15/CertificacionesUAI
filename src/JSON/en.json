@@ -10,6 +10,32 @@
     "hero": {
       "title": "UAI Certification Portal"
     },
+    "home": {
+      "title": "Certifications information",
+      "content": "Here you can find certificates for your specialty and upload your own certifications."
+    },
+    "Footer":{
+      "content": "All rights reserved ©; 2024 UAI"
+    },
+    "Certificates":{
+      "title": "Certificates"
+    },
+    "Profile":{
+      "title": "User Form",
+      "name": "Name",
+      "nickname": "Nickname",
+      "role": "Role",
+      "career": "Career",
+      "save": "Save",
+      "stats": "See Statistics"      
+    },
+    "Upload":{
+      "title": "Upload your Certifications",
+      "form": "Title",
+      "upload": "Upload",
+      "uploaded": "Uploaded Certifications",
+      "show": "Show Certifications"
+    },
     "careers": {
       "title": "Careers",
       "careerNames": {
