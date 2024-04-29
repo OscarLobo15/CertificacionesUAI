@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react"; // Importa React, useEffect y useState desde React
+import React from "react"; // Importa React, useEffect y useState desde React
 import axios from "axios"; // Importa axios para hacer solicitudes HTTP
 import PdfComp from "./PdfComp"; // Importa el componente PdfComp
 import '../CSS/myCertificates.css'; // Importa los estilos CSS del componente MyCertificates
+import { useTranslation } from 'react-i18next'; // Importa el hook useTranslation para manejar las traducciones
+import { useEffect, useState } from 'react'; // Importa useEffect y useState desde React
 
 function MyCertificates() {
   // Definición de estados
@@ -53,6 +55,26 @@ function MyCertificates() {
   const showPdf = (pdf) => {
     setPdfFile(`http://localhost:3001/files/${pdf}`); // Establece la URL del archivo PDF a mostrar
   };
+  const { t, i18n } = useTranslation(); // Usa el hook useTranslation para obtener las traducciones y el objeto i18n
+  const [initialized, setInitialized] = useState(false); // Estado para verificar si la inicialización ha ocurrido
+
+  // Efecto para cargar el idioma almacenado al inicio
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem('language'); // Obtiene el idioma almacenado en el almacenamiento local
+    if (storedLanguage) {
+      i18n.changeLanguage(storedLanguage); // Cambia el idioma según el idioma almacenado
+    }
+    setInitialized(true); // Establece que la inicialización ha ocurrido
+  }, [i18n]); // El efecto se ejecuta cada vez que cambia el objeto i18n
+
+  // Función para cambiar el idioma seleccionado
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng); // Cambia el idioma usando el objeto i18n
+    localStorage.setItem('language', lng); // Almacena el idioma seleccionado en el almacenamiento local
+  };
+
+  // Si la inicialización no ha ocurrido, retorna null para evitar renderizado
+  if (!initialized) return null;
 
   // Renderiza el componente MyCertificates
   return (
@@ -60,12 +82,12 @@ function MyCertificates() {
       {/* Sección de carga de certificados */}
       <div className="upload-section">
         <form className="formStyle" onSubmit={submitImage}>
-          <h4>Sube tus Certificaciones </h4>
+          <h4> {t('Upload.title')} </h4>
           <br />
           <input
             type="text"
             className="form-control"
-            placeholder="Título"
+            placeholder={t('Upload.form')}
             required
             onChange={(e) => setTitle(e.target.value)} // Actualiza el estado del título al cambiar
           />
@@ -79,7 +101,7 @@ function MyCertificates() {
           />
           <br />
           <button className="btn btn-primary btn-upload" type="submit">
-            Subir
+            {t('Upload.upload')}
           </button>
         </form>
       </div>
@@ -87,14 +109,14 @@ function MyCertificates() {
       {/* Sección de certificados subidos */}
       <div className="certificates-section">
         <div className="uploaded">
-          <h4>Certificaciones Subidas</h4>
+          <h4>{t('Upload.uploaded')}</h4>
           <div className="output-div">
             {/* Mapea todos los certificados y los muestra con un botón para ver */}
             {allImage.map((data, index) => (
               <div className="inner-div" key={index}>
                 <h6>Título: {data.title}</h6>
                 <button className="btn btn-primary" onClick={() => showPdf(data.pdf)}>
-                  Mostrar Certificación
+                  {t('Upload.show')}
                 </button>
               </div>
             ))}

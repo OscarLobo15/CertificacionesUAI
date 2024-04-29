@@ -10,6 +10,32 @@
     "hero": {
       "title": "Portal de Certificaciones UAI"
     },
+    "home": {
+      "title": "Información Certificaciones",
+      "content": "Aquí podrás encontrar certificados para tu especialidad y subir tus propias certificaciones."
+    },
+    "Footer":{
+      "content": "Todos los derechos reservados ©; 2024 UAI"
+    },
+    "Certificates":{
+      "title": "Certificaciones"
+    },
+    "Profile":{
+      "title": "Formulario Usuario",
+      "name": "Nombre",
+      "nickname": "Apodo",
+      "role": "Rol",
+      "career": "Carrera",
+      "save": "Guardar",
+      "stats": "Ver estadisticas"
+    },
+    "Upload":{
+      "title": "Sube tus certificados",
+      "form": "Titulo",
+      "upload": "Subir",
+      "uploaded": "Certificaciones Subidas",
+      "show": "Mostrar Certificación"
+    },
     "careers": {
       "title": "Carreras",
       "careerNames": {
