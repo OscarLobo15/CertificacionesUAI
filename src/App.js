@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { supabase } from './supabaseClient';
 import NavBar from './components/Navbar';
 import Home from './components/home';
 import Certificates from './components/certificates';
@@ -13,21 +12,41 @@ import Footer from './components/Footer';
 import './App.css';
 import './i18n';
 import MyCertificates from './components/myCertificates';
+import Login from './components/login';
+import SignUp from './components/signup';
+import { UserProvider as UserContextProvider } from "./context/UserContext";
+import UserProfileForm from './components/newuser';
+import AdminPage from './components/admin';
 
 function App() {
-  const { loginWithRedirect, getAccessTokenSilently, user } = useAuth0();
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      const accessToken = await getAccessTokenSilently();
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error);
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        // No hay sesión activa
+      } else {
+        // Hay una sesión activa
+      }
+    });
+  }, [navigate]);
+
+  const [token, setToken] = useState(false);
+
+  if (token) {
+    sessionStorage.setItem('token', JSON.stringify(token));
+  }
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      let data = JSON.parse(sessionStorage.getItem('token'));
+      setToken(data);
     }
-  };
+  }, []);
 
   return (
-    <div className="App">
-      <BrowserRouter>
+    <UserContextProvider>
+      <div className="App">
         <LanguageSwitcher />
         <NavBar />
         <Routes>
@@ -38,10 +57,15 @@ function App() {
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/certificates/:id" element={<Certificates />} />
           <Route exact path="/estadisticas" element={<Dashboard />} />
+          <Route path={'/signup'} element={<SignUp />} />
+          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path={'/crearcuenta'} element={<UserProfileForm />} />
+          <Route path={'/administracion'} element={< AdminPage/>} />
+
         </Routes>
         <Footer />
-      </BrowserRouter>
-    </div>
+      </div>
+    </UserContextProvider>
   );
 }
 
