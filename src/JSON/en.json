@@ -5,7 +5,10 @@
       "myCertificates": "My Certificates",
       "logOut": "Log Out",
       "logIn": "Log In",
-      "account": "Profile"
+      "account": "Profile",
+      "stats": "Dashboards",
+      "admin": "Validation"
+
     },
     "hero": {
       "title": "UAI Certification Portal"
@@ -52,5 +55,19 @@
       "language": "Language",
       "spanish": "Spanish",
       "english": "English"
+    },
+    "form": {
+      "name": "Name",
+      "lastname": "Last Name",
+      "selectCareer": "Select a career",
+      "loading": "Loading...",
+      "createProfile": "Create Profile"
+    },
+    "profile": {
+      "title": "User Profile",
+      "email": "Email",
+      "name": "Name",
+      "lastname": "Last Name",
+      "career": "Career"
     }
   }

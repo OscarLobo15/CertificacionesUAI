@@ -1,72 +1,54 @@
-.Container {
-  width: 100%;
-  max-width: 1200px; /* Ajusta el ancho máximo según tus necesidades */
-  margin: 0 auto;
-  padding: 20px;
-}
+/* Estilos para escritorio */
+@media only screen and (min-width: 1024px) {
+  .my-certificates-container {
+    width: 60%;
+    margin: 0 auto;
+  }
 
-.upload-section {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
+  .my-certificates-container h2 {
+    font-size: 24px;
+  }
 
-.certificates-section {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-}
+  .my-certificates-container input[type="file"],
+  .my-certificates-container input[type="text"],
+  .my-certificates-container button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+  }
 
-.formStyle {
-  margin-bottom: 20px;
-}
+  .my-certificates-container button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
 
-.form-control {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.btn {
-  padding: 10px 10px;
-  border-radius: 20px;
-  background-color: #5c5c5c;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.uploaded {
-  margin-top: 20px;
-}
-
-.output-div {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.inner-div {
-  flex: 1 0 25%; /* Muestra 4 elementos por fila */
-  margin: 10px;
-  padding: 15px;
-  border: 1px solid #ccc;
-}
-
-@media (max-width: 1024px) {
-  .inner-div {
-    flex: 1 0 33.33%; /* Muestra 3 elementos por fila en tablets */
+  .my-certificates-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 }
 
-@media (max-width: 768px) {
-  .inner-div {
-    flex: 1 0 50%; /* Muestra 2 elementos por fila en dispositivos medianos */
+/* Estilos para tablet */
+@media only screen and (max-width: 1023px) {
+  .my-certificates-container input[type="text"],
+  .my-certificates-container button {
+    font-size: 14px;
   }
 }
 
-@media (max-width: 576px) {
-  .inner-div {
-    flex: 1 0 100%; /* Muestra 1 elemento por fila en smartphones */
+/* Estilos para smartphone */
+@media only screen and (max-width: 767px) {
+  .my-certificates-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .my-certificates-container input[type="text"],
+  .my-certificates-container button {
+    font-size: 12px;
   }
 }

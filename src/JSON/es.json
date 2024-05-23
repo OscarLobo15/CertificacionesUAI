@@ -5,7 +5,9 @@
       "myCertificates": "Mis Certificados",
       "logOut": "Cerrar Sesión",
       "logIn": "Iniciar Sesión",
-      "account": "Perfil"
+      "account": "Perfil",
+      "stats": "Estadísticas",
+      "admin": "Validación"
     },
     "hero": {
       "title": "Portal de Certificaciones UAI"
@@ -52,5 +54,20 @@
       "language": "Idioma",
       "spanish": "Español",
       "english": "Inglés"
+    },
+    "form": {
+      "name": "Nombre",
+      "lastname": "Apellido",
+      "selectCareer": "Selecciona una carrera",
+      "loading": "Cargando...",
+      "createProfile": "Crear perfil"
+    },
+    "profile": {
+      "title": "Perfil de usuario",
+      "email": "Correo electrónico",
+      "name": "Nombre",
+      "lastname": "Apellido",
+      "career": "Carrera"
     }
+  
   }
