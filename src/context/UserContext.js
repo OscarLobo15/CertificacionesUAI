@@ -97,8 +97,46 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+
+
+/* List all files from bucket */
+const listFilesFromBucket = async (bucket) => {
+  try {
+    const { data, error } = await supabase.storage.from(bucket).list();
+    if (error) throw new Error("No files found");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+/* Download file */
+const downloadFileFromBucket = async (bucket, path) => {
+  try {
+    const { data, error } = await supabase.storage.from(bucket).download(path);
+    if (error) throw new Error("Error downloading file");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/* Get signed url of object from specific bucket */
+const getSignedUrl = async (bucketId, path) => {
+  try {
+    const { signedURL, error } = await supabase.storage
+      .from(bucketId)
+      .createSignedUrl(path, 80);
+    if (error) throw new Error("No files found");
+    return signedURL;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   return (
-    <UserContext.Provider value={{ user, userInfo, pdfs, setPdfs, addPdf, deletePdf, addUserInfo, loading }}>
+    <UserContext.Provider value={{ user, userInfo, pdfs, setPdfs, addPdf, deletePdf, addUserInfo,getSignedUrl,downloadFileFromBucket,listFilesFromBucket, loading }}>
       {children}
     </UserContext.Provider>
   );

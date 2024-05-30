@@ -6,6 +6,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.12.1",
     "@fortawesome/fontawesome-free": "^6.5.2",
+    "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.43.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -26,6 +27,7 @@
     "mongoose": "^8.3.1",
     "pdfjs-dist": "^4.1.392",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.0",
     "react-icons": "^5.1.0",

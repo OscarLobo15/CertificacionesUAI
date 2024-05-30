@@ -20,6 +20,8 @@ import AdminPage from './components/admin';
 
 function App() {
   const navigate = useNavigate();
+  const [inactivityTime, setInactivityTime] = useState(null);
+  const [token, setToken] = useState(false);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
@@ -31,7 +33,40 @@ function App() {
     });
   }, [navigate]);
 
-  const [token, setToken] = useState(false);
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      // Limpia el estado o realiza otras acciones necesarias después del cierre de sesión
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // La página está visible, reinicia el temporizador
+        clearTimeout(inactivityTime);
+        setInactivityTime(null);
+      } else {
+        // La página está oculta, inicia el temporizador de 5 minutos
+        setInactivityTime(
+          setTimeout(() => {
+            handleLogout();
+          }, 5 * 60 * 1000) // 5 minutos en milisegundos
+        );
+      }
+    };
+
+    // Agrega el manejador de eventos al cargar el componente
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Limpia el manejador de eventos al desmontar el componente
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearTimeout(inactivityTime);
+    };
+  }, [handleLogout, inactivityTime]);
 
   if (token) {
     sessionStorage.setItem('token', JSON.stringify(token));
@@ -60,8 +95,7 @@ function App() {
           <Route path={'/signup'} element={<SignUp />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path={'/crearcuenta'} element={<UserProfileForm />} />
-          <Route path={'/administracion'} element={< AdminPage/>} />
-
+          <Route path={'/administracion'} element={<AdminPage />} />
         </Routes>
         <Footer />
       </div>
