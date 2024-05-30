@@ -1,53 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { supabase } from '../supabaseClient';
-import '../CSS/admin.css'; // Asegúrate de importar tus estilos CSS
+import { Container, Table } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useTranslation } from 'react-i18next';
+import { UserContext } from '../context/UserContext';
+
+const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
 const AdminPage = () => {
-  const [pdfInfos, setPdfInfos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
+  const [initialized, setInitialized] = useState(false);
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem('language');
+    if (storedLanguage) {
+      i18n.changeLanguage(storedLanguage);
+    }
+    setInitialized(true);
+  }, [i18n]);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
+  };
 
   useEffect(() => {
     const fetchAllPdfs = async () => {
       try {
-        // Step 1: Fetch all PDF files from the storage without specifying a directory
-        const { data: files, error: fetchError } = await supabase.storage.from('pdf').list('', {
-          limit: 100,
-          offset: 0,
-          sortBy: { column: 'name', order: 'asc' },
-        });
+        const { data: files, error: fetchError } = await supabase.storage
+          .from('pdf')
+          .list('', {
+            limit: 100,
+            offset: 0,
+            sortBy: { column: 'name', order: 'asc' },
+          });
 
         if (fetchError) {
           throw fetchError;
         }
 
-        // Step 2: Fetch user info for each PDF
-        const pdfInfos = await Promise.all(files.map(async (file) => {
-          // Extract the user ID from the file path
-          const userId = file.name.split('/')[0];
-          const fileName = file.name.split('/')[1];
-
-          // Fetch user information from the database
-          const { data: userInfo, error: userError } = await supabase
-            .from('userinfo')
-            .select('name, lastname, career')
-            .eq('userid', userId)
-            .single();
-
-          if (userError) {
-            console.error('Error fetching user info:', userError);
-            return null;
-          }
-
-          return {
-            fileName,
-            ...userInfo,
-          };
-        }));
-
-        setPdfInfos(pdfInfos.filter(info => info !== null));
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching PDFs and user info:', error);
-      } finally {
         setLoading(false);
       }
     };
@@ -60,9 +56,9 @@ const AdminPage = () => {
   }
 
   return (
-    <div>
+    <Container align="center" className="container-sm mt-4">
       <h1>Admin Page</h1>
-      <table>
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>PDF Name</th>
@@ -72,23 +68,26 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          {pdfInfos.map((pdf, index) => (
+          {user.files.map((file, index) => (
             <tr key={index}>
-              <td>{pdf.fileName}</td>
-              <td>{`${pdf.name} ${pdf.lastname}`}</td>
-              <td>{pdf.career}</td>
+              <td>{file.name.split('/')[1]}</td>
+              <td>{`${user.name} ${user.lastname}`}</td>
+              <td>{t(user.career)}</td>
               <td>
-                <a href={`https://your-supabase-url.supabase.co/storage/v1/object/public/pdf/${pdf.fileName}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`${CDNURL}${user.id}/${file.name.split('/')[1]}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Open PDF
                 </a>
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+      </Table>
+    </Container>
   );
 };
 
 export default AdminPage;
-    
