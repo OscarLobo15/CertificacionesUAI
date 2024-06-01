@@ -17,6 +17,7 @@ import SignUp from './components/signup';
 import { UserProvider as UserContextProvider } from "./context/UserContext";
 import UserProfileForm from './components/newuser';
 import AdminPage from './components/admin';
+import AdminPanel from './components/admin2';
 
 function App() {
   const navigate = useNavigate();
@@ -36,7 +37,8 @@ function App() {
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
-      // Limpia el estado o realiza otras acciones necesarias después del cierre de sesión
+      // Redirigir al componente Home después del cierre de sesión
+      navigate('/home');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
@@ -89,13 +91,14 @@ function App() {
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/carreras" element={<Careers />} />
           <Route exact path="/miscertificados" element={<MyCertificates />} />
-          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/profile" element={<UserProfileForm />} />
           <Route exact path="/certificates/:id" element={<Certificates />} />
           <Route exact path="/estadisticas" element={<Dashboard />} />
           <Route path={'/signup'} element={<SignUp />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path={'/crearcuenta'} element={<UserProfileForm />} />
           <Route path={'/administracion'} element={<AdminPage />} />
+          <Route path={'/tipovalidacion'} element={<AdminPanel />} />
         </Routes>
         <Footer />
       </div>

@@ -24,7 +24,7 @@ const SignUp = () => {
       if (error) throw error;
       alert('Check your email for verification link');
       // Redirigir al usuario a la página de creación de perfil después de registrarse
-      navigate('/crearperfil');
+      navigate('/crearcuenta');
     } catch (error) {
       alert(error);
     }
