@@ -1,17 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import { Container, Table } from 'react-bootstrap';
+import { Container, Table, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
-import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
 const AdminPage = () => {
+  const [pdfInfos, setPdfInfos] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t, i18n } = useTranslation();
   const [initialized, setInitialized] = useState(false);
-  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('language');
@@ -29,21 +30,40 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchAllPdfs = async () => {
       try {
-        const { data: files, error: fetchError } = await supabase.storage
-          .from('pdf')
-          .list('', {
-            limit: 100,
-            offset: 0,
-            sortBy: { column: 'name', order: 'asc' },
-          });
+        const { data: pdfsData, error: pdfsError } = await supabase
+          .from('pdfinfo')
+          .select('pdfname, userid, verificate');
 
-        if (fetchError) {
-          throw fetchError;
+        if (pdfsError) {
+          throw pdfsError;
         }
 
-        setLoading(false);
+        const pdfInfos = [];
+
+        for (const pdf of pdfsData) {
+          const { data: userInfo, error: userError } = await supabase
+            .from('userinfo')
+            .select('name, lastname, career')
+            .eq('userid', pdf.userid)
+            .single();
+
+          if (userError) {
+            console.error('Error fetching user info:', userError);
+            continue;
+          }
+
+          pdfInfos.push({
+            fileName: pdf.pdfname,
+            userId: pdf.userid,
+            verificate: pdf.verificate,
+            ...userInfo
+          });
+        }
+
+        setPdfInfos(pdfInfos);
       } catch (error) {
         console.error('Error fetching PDFs and user info:', error);
+      } finally {
         setLoading(false);
       }
     };
@@ -55,27 +75,36 @@ const AdminPage = () => {
     return <div>Loading...</div>;
   }
 
+  const navigateToAdminPanel = () => {
+    navigate('/tipovalidacion');
+  };
+
   return (
     <Container align="center" className="container-sm mt-4">
       <h1>Admin Page</h1>
+      <Button variant="primary" onClick={navigateToAdminPanel} className="mb-4">
+        Go to Admin Panel
+      </Button>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>PDF Name</th>
             <th>User Name</th>
             <th>Career</th>
+            <th>Verified</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {user.files.map((file, index) => (
+          {pdfInfos.map((pdf, index) => (
             <tr key={index}>
-              <td>{file.name.split('/')[1]}</td>
-              <td>{`${user.name} ${user.lastname}`}</td>
-              <td>{t(user.career)}</td>
+              <td>{pdf.fileName}</td>
+              <td>{`${pdf.name} ${pdf.lastname}`}</td>
+              <td>{t(pdf.career)}</td>
+              <td>{pdf.verificate ? 'Yes' : 'No'}</td>
               <td>
                 <a
-                  href={`${CDNURL}${user.id}/${file.name.split('/')[1]}`}
+                  href={`${CDNURL}${pdf.userId}/${pdf.fileName}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -91,3 +120,4 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
+
