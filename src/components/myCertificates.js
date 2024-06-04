@@ -1,5 +1,3 @@
-// /src/components/MyCertificates.js
-
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
 import { supabase } from '../supabaseClient';
@@ -42,13 +40,31 @@ function MyCertificates() {
           console.error('Error fetching user career:', error);
         } else {
           setCareer(data.career);
-          setFileNameOptions(getFileNameOptions(data.career));
+          fetchFileNameOptions(data.career);
         }
       };
 
       fetchUserCareer();
     }
   }, [user]);
+
+  const fetchFileNameOptions = async (career) => {
+    try {
+      const { data, error } = await supabase
+        .from('certificates')
+        .select('certificate_name')
+        .eq('career', career);
+
+      if (error) {
+        console.error('Error fetching file name options:', error);
+      } else {
+        const options = data.map((cert) => cert.certificate_name);
+        setFileNameOptions(options);
+      }
+    } catch (error) {
+      console.error('Error fetching file name options:', error);
+    }
+  };
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -90,17 +106,9 @@ function MyCertificates() {
       setSelectedFile(null);
       setNewFileName('');
       fetchAllPdfs(); // Update the table with the new PDF info
-    }
-  };
 
-  const getFileNameOptions = (career) => {
-    switch (career) {
-      case 'Ingeniería':
-        return ['Proyecto Final', 'Tesis', 'Informe'];
-      case 'Medicina':
-        return ['Investigación', 'Caso Clínico', 'Tesis'];
-      default:
-        return ['Documento', 'Archivo', 'Reporte'];
+      // Limpiar el campo de selección de archivo
+      document.querySelector('input[type="file"]').value = '';
     }
   };
 

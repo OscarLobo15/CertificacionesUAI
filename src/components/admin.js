@@ -4,6 +4,7 @@ import { Container, Table, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import '../CSS/admin.css';
 
 const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
@@ -52,10 +53,22 @@ const AdminPage = () => {
             continue;
           }
 
+          const { data: certificateInfo, error: certificateError } = await supabase
+            .from('certificates')
+            .select('val_type')
+            .eq('certificate_name', pdf.pdfname)
+            .single();
+
+          if (certificateError) {
+            console.error('Error fetching certificate info:', certificateError);
+            continue;
+          }
+
           pdfInfos.push({
             fileName: pdf.pdfname,
             userId: pdf.userid,
             verificate: pdf.verificate,
+            verificationType: certificateInfo.val_type,
             ...userInfo
           });
         }
@@ -70,6 +83,34 @@ const AdminPage = () => {
 
     fetchAllPdfs();
   }, []);
+
+  const handleVerify = async (pdf) => {
+    try {
+      const currentDate = new Date().toISOString();
+      const { data: { session } } = await supabase.auth.getSession();
+      const userEmail = session?.user?.email;
+
+      const { error } = await supabase
+        .from('pdfinfo')
+        .update({ verificate: true, time_ver: currentDate, user_ver: userEmail })
+        .eq('pdfname', pdf.fileName)
+        .eq('userid', pdf.userId);
+
+      if (error) {
+        throw error;
+      }
+
+      setPdfInfos((prevPdfInfos) =>
+        prevPdfInfos.map((p) =>
+          p.fileName === pdf.fileName && p.userId === pdf.userId
+            ? { ...p, verificate: true }
+            : p
+        )
+      );
+    } catch (error) {
+      console.error('Error verifying PDF:', error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -92,6 +133,8 @@ const AdminPage = () => {
             <th>User Name</th>
             <th>Career</th>
             <th>Verified</th>
+            <th>Verification Type</th>
+            <th>Verification</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -102,13 +145,29 @@ const AdminPage = () => {
               <td>{`${pdf.name} ${pdf.lastname}`}</td>
               <td>{t(pdf.career)}</td>
               <td>{pdf.verificate ? 'Yes' : 'No'}</td>
+              <td>{pdf.verificationType}</td>
+              <td>
+                {pdf.verificate ? (
+                  <span>Verificado</span>
+                ) : (
+                  pdf.verificationType === 'manual' && (
+                    <Button
+                      variant="success"
+                      onClick={() => handleVerify(pdf)}
+                      className="ml-2 custom-button"
+                    >
+                      Verificar
+                    </Button>
+                  )
+                )}
+              </td>
               <td>
                 <a
                   href={`${CDNURL}${pdf.userId}/${pdf.fileName}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Open PDF
+                  Abrir PDF
                 </a>
               </td>
             </tr>
@@ -120,4 +179,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-

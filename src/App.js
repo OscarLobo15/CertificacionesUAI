@@ -91,7 +91,7 @@ function App() {
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/carreras" element={<Careers />} />
           <Route exact path="/miscertificados" element={<MyCertificates />} />
-          <Route exact path="/profile" element={<UserProfileForm />} />
+          <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/certificates/:id" element={<Certificates />} />
           <Route exact path="/estadisticas" element={<Dashboard />} />
           <Route path={'/signup'} element={<SignUp />} />
