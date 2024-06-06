@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/admin.css';
+import log from '../logger';
 
 const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
@@ -30,6 +31,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     const fetchAllPdfs = async () => {
+      log.debug('Fetching all PDFs from database');
       try {
         const { data: pdfsData, error: pdfsError } = await supabase
           .from('pdfinfo')
@@ -49,7 +51,7 @@ const AdminPage = () => {
             .single();
 
           if (userError) {
-            console.error('Error fetching user info:', userError);
+            log.error('Error fetching user info:', userError);
             continue;
           }
 
@@ -60,7 +62,7 @@ const AdminPage = () => {
             .single();
 
           if (certificateError) {
-            console.error('Error fetching certificate info:', certificateError);
+            log.error('Error fetching certificate info:', certificateError);
             continue;
           }
 
@@ -74,8 +76,9 @@ const AdminPage = () => {
         }
 
         setPdfInfos(pdfInfos);
+        log.info('PDFs and user info successfully fetched');
       } catch (error) {
-        console.error('Error fetching PDFs and user info:', error);
+        log.error('Error fetching PDFs and user info:', error);
       } finally {
         setLoading(false);
       }
@@ -85,6 +88,7 @@ const AdminPage = () => {
   }, []);
 
   const handleVerify = async (pdf) => {
+    log.debug(`Verifying PDF: ${pdf.fileName} for user: ${pdf.userId}`);
     try {
       const currentDate = new Date().toISOString();
       const { data: { session } } = await supabase.auth.getSession();
@@ -107,8 +111,10 @@ const AdminPage = () => {
             : p
         )
       );
+
+      log.info(`PDF verified successfully: ${pdf.fileName}`);
     } catch (error) {
-      console.error('Error verifying PDF:', error);
+      log.error('Error verifying PDF:', error);
     }
   };
 
