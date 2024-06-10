@@ -139,57 +139,65 @@ function MyCertificates() {
     }
   }, [user]);
 
-  if (!user || !user.id) {
-    return <div>Loading user information...</div>;
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <>
-      <input type="file" onChange={handleFileChange} />
-      <select value={newFileName} onChange={handleNewFileNameChange}>
-        <option value="">Seleccione un nombre para el archivo</option>
+    <div className="my-certificates-container">
+      <h2>{t('mycertificates.uploadefile')}</h2>
+      <input 
+        type="file" 
+        onChange={handleFileChange} 
+        className="my-certificates-input" 
+      />
+      <select 
+        value={newFileName} 
+        onChange={handleNewFileNameChange} 
+        className="my-certificates-select"
+      >
+        <option value="">{t('mycertificates.filename')}</option>
         {fileNameOptions.map((option, index) => (
           <option key={index} value={option}>{option}</option>
         ))}
       </select>
-      <button onClick={uploadFile} disabled={!selectedFile || !newFileName}>
-        Upload Certificate
+      <button 
+        onClick={uploadFile} 
+        disabled={!selectedFile || !newFileName}
+        className="my-certificates-button"
+      >
+        {t('mycertificates.filebutton')}
       </button>
 
-      <h2>My Uploads</h2>
+      <h2>{t('mycertificates.myfiles')}</h2>
       <Container align="center" className="container-sm mt-4">
-        <Table striped bordered hover>
+        <Table striped bordered hover className="my-certificates-table">
           <thead>
             <tr>
-              <th>PDF Name</th>
-              <th>Link</th>
-              <th>Verified</th>
+              <th>{t('mycertificates.pdfname')}</th>
+              <th>{t('mycertificates.link')}</th>
+              <th>{t('mycertificates.verificate')}</th>
             </tr>
           </thead>
           <tbody>
             {pdfInfos.map((pdf, index) => (
               <tr key={index}>
-                <td>{pdf.pdfname}</td>
-                <td>
+                <td data-label={t('mycertificates.pdfname')}>{pdf.pdfname}</td>
+                <td data-label={t('mycertificates.link')}>
                   <a
                     href={`${CDNURL}${user.id}/${pdf.pdfname}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Open PDF
+                    {t('mycertificates.viewpdf')}
                   </a>
                 </td>
-                <td>{pdf.verificate ? 'Yes' : 'No'}</td>
+                <td data-label={t('mycertificates.verificate')}>
+                  {pdf.verificate ? t('mycertificates.verificateyes') : t('mycertificates.verificateno')}
+                </td>
               </tr>
             ))}
           </tbody>
         </Table>
       </Container>
-    </>
+    </div>
   );
 }
 

@@ -1,81 +1,78 @@
-import React, { useState } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import '../CSS/login.css'; // Importa los estilos CSS
+import { useTranslation } from 'react-i18next';
 
-const Login = ({setToken}) => {
-  let navigate = useNavigate()
+const Login = ({ setToken }) => {
+  const { t, i18n } = useTranslation();
+  const [initialized, setInitialized] = useState(false);
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem('language');
+    if (storedLanguage) {
+      i18n.changeLanguage(storedLanguage);
+    }
+    setInitialized(true);
+  }, [i18n]);
 
-  const [formData,setFormData] = useState({
-        email:'',password:''
-  })
+  let navigate = useNavigate();
 
-  console.log(formData)
+  const [formData, setFormData] = useState({
+    email: '', password: ''
+  });
 
-  function handleChange(event){
-    setFormData((prevFormData)=>{
-      return{
-        ...prevFormData,
-        [event.target.name]:event.target.value
-      }
-
-    })
-
+  function handleChange(event) {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [event.target.name]: event.target.value
+    }));
   }
 
-  async function handleSubmit(e){
-    e.preventDefault()
-
+  async function handleSubmit(e) {
+    e.preventDefault();
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: formData.email,
-            password: formData.password,
-          })
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
 
-      if (error) throw error
-      console.log(data)
-      setToken(data)
-      navigate('/home')
-
-
-    //   alert('Check your email for verification link')
-
-      
+      if (error) throw error;
+      setToken(data);
+      navigate('/home');
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   }
 
-
-
-
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        
-
-        <input 
-          placeholder='Email'
-          name='email'
-          onChange={handleChange}
-        />
-
-        <input 
-          placeholder='Password'
-          name='password'
-          type="password"
-          onChange={handleChange}
-        />
-
-        <button type='submit'>
-          Submit
-        </button>
-
-
-      </form>
-      Don't have an account? <Link to='/signup'>Sign Up</Link> 
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">{t('login.title')}</h2>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <input 
+            className="login-input"
+            placeholder= {t('login.email')}
+            name='email'
+            type="email"
+            onChange={handleChange}
+            required
+          />
+          <input 
+            className="login-input"
+            placeholder= {t('login.password')}
+            name='password'
+            type="password"
+            onChange={handleChange}
+            required
+          />
+          <button className="login-button" type='submit'>{t('login.submitbutton')}</button>
+        </form>
+        <div className="login-link">
+        {t('login.text')} <Link to='/signup'>{t('login.signup')}</Link>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
