@@ -7,8 +7,6 @@
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.43.2",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "auth0-js": "^9.24.1",
     "axios": "^1.6.8",
@@ -44,8 +42,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --coverage",
+    "eject": "react-scripts eject",
+    "coverage": "npm test -- --coverage --watchAll --collectCoverageFrom ='src/components/**/*.{js,jsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +65,9 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^16.0.0",
+    "jest": "^27.5.1",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
   },
