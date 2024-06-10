@@ -1,43 +1,50 @@
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+/* Responsive styles for Dashboard component */
+
+/* Common styles for all screen sizes */
+.dashboard-container {
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto; /* Center the container horizontally */
+  font-family: Arial, sans-serif;
+}
+
+/* Smartphone */
+@media (max-width: 767px) {
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Estilos para el gráfico de barras */
-  #chartCertificadosPorCarrera,
-  #chartPorcentajeCertificados,
-  #chartTendenciaCertificados {
+
+  .chart-container .chart-wrapper {
+    margin: 10px 0;
     width: 100%;
-    margin-bottom: 20px; /* Agrega espacio entre los gráficos */
   }
-  
-  /* Estilos para dispositivos de pantalla pequeña */
-  @media (max-width: 1024px) {
-    #chartPorcentajeCertificados,
-    #chartTendenciaCertificados {
-      width: 100%; /* Los gráficos ocupan el 100% del ancho */
-      display: block; /* Los gráficos se muestran uno debajo del otro */
-    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .chart-container .chart-wrapper {
+    margin: 15px;
+    width: calc(50% - 30px);
   }
-  
-  /* Estilos para desktops */
-  @media (min-width: 1025px) {
-    #chartPorcentajeCertificados,
-    #chartTendenciaCertificados {
-      width: calc(50% - 10px); /* Ancho del 50% para los gráficos */
-      display: inline-block; /* Los gráficos se muestran en línea */
-    }
-  
-    #chartTendenciaCertificados {
-      margin-left: 20px; /* Agrega un margen a la derecha del segundo gráfico */
-    }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+  .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the charts horizontally */
   }
-  
+
+  .chart-container .chart-wrapper {
+    margin: 20px;
+    max-width: calc(50% - 40px); /* Two charts per row with some margin between */
+  }
+
+  .chart-container .list-wrapper {
+    margin: 20px;
+    max-width: 600px; /* Set maximum width for the list container */
+  }
+}
