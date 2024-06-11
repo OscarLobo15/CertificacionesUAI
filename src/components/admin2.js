@@ -3,6 +3,7 @@ import { supabase } from '../supabaseClient';
 import { Container, Table, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
+import '../CSS/admin2.css';
 
 const AdminPanel = () => {
   const [certificates, setCertificates] = useState([]);
@@ -41,29 +42,31 @@ const AdminPanel = () => {
     fetchUserCareer();
   }, []);
 
-  useEffect(() => {
-    const fetchCertificates = async () => {
-      try {
-        if (!userCareer) return;
+  const fetchCertificates = async () => {
+    try {
+      if (!userCareer) return;
 
-        const { data: certificatesData, error: certificatesError } = await supabase
-          .from('certificates')
-          .select('id, certificate_name, val_type')
-          .eq('career', userCareer);
+      const { data: certificatesData, error: certificatesError } = await supabase
+        .from('certificates')
+        .select('id, certificate_name, val_type')
+        .eq('career', userCareer);
 
-        if (certificatesError) {
-          throw certificatesError;
-        }
-
-        setCertificates(certificatesData);
-      } catch (error) {
-        console.error('Error fetching certificates:', error);
-      } finally {
-        setLoading(false);
+      if (certificatesError) {
+        throw certificatesError;
       }
-    };
 
+      setCertificates(certificatesData);
+    } catch (error) {
+      console.error('Error fetching certificates:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchCertificates();
+    const intervalId = setInterval(fetchCertificates, 5000);
+    return () => clearInterval(intervalId);
   }, [userCareer]);
 
   const handleValTypeChange = async (certId, newValType) => {
@@ -87,18 +90,14 @@ const AdminPanel = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Container align="center" className="container-sm mt-4">
-      <h1>Certificados de {t(userCareer)}</h1>
+      <h1>{t('admin2.title')} {t(userCareer)}</h1>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>{t('Certificate Name')}</th>
-            <th>{t('Validation Type')}</th>
+            <th>{t('admin2.pdfname')}</th>
+            <th>{t('admin2.vertype')}</th>
           </tr>
         </thead>
         <tbody>
@@ -110,8 +109,8 @@ const AdminPanel = () => {
                   value={cert.val_type}
                   onChange={(e) => handleValTypeChange(cert.id, e.target.value)}
                 >
-                  <option value="automatico">Automático</option>
-                  <option value="manual">Manual</option>
+                  <option value="automatico">{t('admin2.automatic')}</option>
+                  <option value="manual">{t('admin2.manual')}</option>
                 </Form.Select>
               </td>
             </tr>

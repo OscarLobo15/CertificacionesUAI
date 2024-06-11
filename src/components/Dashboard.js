@@ -94,12 +94,12 @@ const Dashboard = () => {
         <div className="chart-wrapper">
           <div className="chart">
             <h2>{t('dashboard.chart1')}</h2>
-            <BarChart width={400} height={400} data={studentsPerCareer}>
+            <BarChart width={500} height={400} data={studentsPerCareer}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="career" interval={0} angle={-30} textAnchor="end" />
               <YAxis />
               <Tooltip />
-              <Legend width={390} height={40}/>
+              <Legend width={390} height={100}/>
               <Bar dataKey="count" fill="#8884d8" />
             </BarChart>
           </div>
@@ -107,12 +107,12 @@ const Dashboard = () => {
         <div className="chart-wrapper">
           <div className="chart">
             <h2>{t('dashboard.chart2')}</h2>
-            <BarChart width={400} height={450} data={certificatesPerCareer}>
+            <BarChart width={500} height={450} data={certificatesPerCareer}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="career" interval={0} angle={-30} textAnchor="end" />
               <YAxis />
               <Tooltip />
-              <Legend width={390} height={100}/>
+              <Legend width={690} height={100}/>
               <Bar dataKey="count" fill="#82ca9d" />
             </BarChart>
           </div>
