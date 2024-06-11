@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/admin.css';
+import log from '../logger';
 
 const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
@@ -30,6 +31,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     const fetchAllPdfs = async () => {
+      log.debug('Fetching all PDFs from database');
       try {
         const { data: pdfsData, error: pdfsError } = await supabase
           .from('pdfinfo')
@@ -49,7 +51,7 @@ const AdminPage = () => {
             .single();
 
           if (userError) {
-            console.error('Error fetching user info:', userError);
+            log.error('Error fetching user info:', userError);
             continue;
           }
 
@@ -60,7 +62,7 @@ const AdminPage = () => {
             .single();
 
           if (certificateError) {
-            console.error('Error fetching certificate info:', certificateError);
+            log.error('Error fetching certificate info:', certificateError);
             continue;
           }
 
@@ -74,8 +76,9 @@ const AdminPage = () => {
         }
 
         setPdfInfos(pdfInfos);
+        log.info('PDFs and user info successfully fetched');
       } catch (error) {
-        console.error('Error fetching PDFs and user info:', error);
+        log.error('Error fetching PDFs and user info:', error);
       } finally {
         setLoading(false);
       }
@@ -85,6 +88,7 @@ const AdminPage = () => {
   }, []);
 
   const handleVerify = async (pdf) => {
+    log.debug(`Verifying PDF: ${pdf.fileName} for user: ${pdf.userId}`);
     try {
       const currentDate = new Date().toISOString();
       const { data: { session } } = await supabase.auth.getSession();
@@ -107,14 +111,13 @@ const AdminPage = () => {
             : p
         )
       );
+
+      log.info(`PDF verified successfully: ${pdf.fileName}`);
     } catch (error) {
-      console.error('Error verifying PDF:', error);
+      log.error('Error verifying PDF:', error);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   const navigateToAdminPanel = () => {
     navigate('/tipovalidacion');
@@ -122,20 +125,19 @@ const AdminPage = () => {
 
   return (
     <Container align="center" className="container-sm mt-4">
-      <h1>Admin Page</h1>
+      <h1>{t('admin.title')}</h1>
       <Button variant="primary" onClick={navigateToAdminPanel} className="mb-4">
-        Go to Admin Panel
+      {t('admin.admin2button')}
       </Button>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>PDF Name</th>
-            <th>User Name</th>
-            <th>Career</th>
-            <th>Verified</th>
-            <th>Verification Type</th>
-            <th>Verification</th>
-            <th>Actions</th>
+            <th>{t('admin.pdfname')}</th>
+            <th>{t('admin.username')}</th>
+            <th>{t('admin.career')}</th>
+            <th>{t('admin.vertype')}</th>
+            <th>{t('admin.status')}</th>
+            <th>{t('admin.link')}</th>
           </tr>
         </thead>
         <tbody>
@@ -144,11 +146,10 @@ const AdminPage = () => {
               <td>{pdf.fileName}</td>
               <td>{`${pdf.name} ${pdf.lastname}`}</td>
               <td>{t(pdf.career)}</td>
-              <td>{pdf.verificate ? 'Yes' : 'No'}</td>
-              <td>{pdf.verificationType}</td>
+              <td>{pdf.verificationType === 'manual' ? t('admin.manual') : pdf.verificationType === 'automatic' ? t('admin.automatic') : ''}</td>
               <td>
                 {pdf.verificate ? (
-                  <span>Verificado</span>
+                  <span>{t('admin.verification')}</span>
                 ) : (
                   pdf.verificationType === 'manual' && (
                     <Button
@@ -156,7 +157,7 @@ const AdminPage = () => {
                       onClick={() => handleVerify(pdf)}
                       className="ml-2 custom-button"
                     >
-                      Verificar
+                      {t('admin.verbutton')}
                     </Button>
                   )
                 )}
@@ -167,7 +168,7 @@ const AdminPage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Abrir PDF
+                  {t('admin.viewpdf')}
                 </a>
               </td>
             </tr>
