@@ -9,9 +9,6 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
-// Configurar la ruta local del worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.js';
-
 function MyCertificates() {
   const { user, pdfs, addPdf, deletePdf } = useContext(UserContext);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -123,83 +120,27 @@ function MyCertificates() {
   };
 
   const uploadFile = async () => {
-    if (selectedFile && newFileName && user && user.id && userInfo) {
-      const { name: firstName, lastname: lastName } = userInfo;
-
-      console.log('Nombre del usuario:', firstName);
-      console.log('Apellido del usuario:', lastName);
-
-      try {
-        // Obtener el tipo de validaciÃ³n del certificado
-        const { data: certData, error: certError } = await supabase
-          .from('certificates')
-          .select('val_type')
-          .eq('certificate_name', newFileName)
-          .single();
-
-        if (certError) {
-          console.error('Error fetching certificate validation type:', certError);
-          return;
-        }
-
-        const validationType = certData.val_type;
-
-        if (validationType === 'automatic') {
-          const content = await readPDFContent(selectedFile);
-
-          if (verifyPDFContent(content, firstName, lastName)) {
-            const { data: storageData, error: storageError } = await supabase
-              .storage
-              .from('pdf')
-              .upload(`${user.id}/${newFileName}`, selectedFile);
-
-            if (storageError) {
-              console.error('Error uploading file:', storageError);
-              return;
-            }
-
-            const { error: dbError } = await supabase
-              .from('pdfinfo')
-              .insert({
-                pdfname: newFileName,
-                userid: user.id,
-                career,
-                verificate: true
-              });
-
-            if (dbError) {
-              console.error('Error saving file info:', dbError);
-              return;
-            }
-
-            await addPdf(selectedFile, newFileName);
-            setSelectedFile(null);
-            setNewFileName('');
-            fetchAllPdfs();
-
-            document.querySelector('input[type="file"]').value = '';
-          } else {
-            alert('El nombre y el apellido del usuario no se encontraron en el PDF.');
-          }
-        } else if (validationType === 'manual') {
-          const { data: storageData, error: storageError } = await supabase
-            .storage
-            .from('pdf')
-            .upload(`${user.id}/${newFileName}`, selectedFile);
+    if (selectedFile && newFileName && user && user.id) {
+      // Upload file to storage
+      const { data: storageData, error: storageError } = await supabase
+        .storage
+        .from('pdf')
+        .upload(`${user.id}/${newFileName}`, selectedFile);
 
           if (storageError) {
             console.error('Error uploading file:', storageError);
             return;
           }
 
-          const { error: dbError } = await supabase
-            .from('pdfinfo')
-            .insert({
-              pdfname: newFileName,
-              userid: user.id,
-              career,
-              verificate: false
-            });
+      // Insert file info into the database
+      const { error: dbError } = await supabase
+        .from('pdfinfo')
+        .insert({
+          pdfname: newFileName,
+          userid: user.id,
+          career,
+          verificate: 'no'
+        });
 
           if (dbError) {
             console.error('Error saving file info:', dbError);
@@ -211,11 +152,8 @@ function MyCertificates() {
           setNewFileName('');
           fetchAllPdfs();
 
-          document.querySelector('input[type="file"]').value = '';
-        }
-      } catch (error) {
-        console.error('Error reading or verifying PDF:', error);
-      }
+      // Limpiar el campo de selección de archivo
+      document.querySelector('input[type="file"]').value = '';
     }
   };
 
@@ -244,6 +182,7 @@ function MyCertificates() {
     if (user && user.id) {
       fetchAllPdfs();
     }
+    
   }, [user]);
 
   return (
@@ -308,4 +247,3 @@ function MyCertificates() {
 }
 
 export default MyCertificates;
-
