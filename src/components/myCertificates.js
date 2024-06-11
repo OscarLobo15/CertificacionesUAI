@@ -9,7 +9,6 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
 
-
 // Configurar la ruta local del worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.js';
 
@@ -131,9 +130,58 @@ function MyCertificates() {
       console.log('Apellido del usuario:', lastName);
 
       try {
-        const content = await readPDFContent(selectedFile);
+        // Obtener el tipo de validación del certificado
+        const { data: certData, error: certError } = await supabase
+          .from('certificates')
+          .select('val_type')
+          .eq('certificate_name', newFileName)
+          .single();
 
-        if (verifyPDFContent(content, firstName, lastName)) {
+        if (certError) {
+          console.error('Error fetching certificate validation type:', certError);
+          return;
+        }
+
+        const validationType = certData.val_type;
+
+        if (validationType === 'automatic') {
+          const content = await readPDFContent(selectedFile);
+
+          if (verifyPDFContent(content, firstName, lastName)) {
+            const { data: storageData, error: storageError } = await supabase
+              .storage
+              .from('pdf')
+              .upload(`${user.id}/${newFileName}`, selectedFile);
+
+            if (storageError) {
+              console.error('Error uploading file:', storageError);
+              return;
+            }
+
+            const { error: dbError } = await supabase
+              .from('pdfinfo')
+              .insert({
+                pdfname: newFileName,
+                userid: user.id,
+                career,
+                verificate: true
+              });
+
+            if (dbError) {
+              console.error('Error saving file info:', dbError);
+              return;
+            }
+
+            await addPdf(selectedFile, newFileName);
+            setSelectedFile(null);
+            setNewFileName('');
+            fetchAllPdfs();
+
+            document.querySelector('input[type="file"]').value = '';
+          } else {
+            alert('El nombre y el apellido del usuario no se encontraron en el PDF.');
+          }
+        } else if (validationType === 'manual') {
           const { data: storageData, error: storageError } = await supabase
             .storage
             .from('pdf')
@@ -150,7 +198,7 @@ function MyCertificates() {
               pdfname: newFileName,
               userid: user.id,
               career,
-              verificate: true
+              verificate: false
             });
 
           if (dbError) {
@@ -164,8 +212,6 @@ function MyCertificates() {
           fetchAllPdfs();
 
           document.querySelector('input[type="file"]').value = '';
-        } else {
-          alert('El nombre y el apellido del usuario no se encontraron en el PDF.');
         }
       } catch (error) {
         console.error('Error reading or verifying PDF:', error);
@@ -198,9 +244,7 @@ function MyCertificates() {
     if (user && user.id) {
       fetchAllPdfs();
     }
-    
   }, [user]);
-
 
   return (
     <div className="my-certificates-container">
@@ -243,9 +287,9 @@ function MyCertificates() {
               <tr key={index}>
                 <td data-label={t('mycertificates.pdfname')}>{pdf.pdfname}</td>
                 <td data-label={t('mycertificates.link')}>
-                  <a
-                    href={`${CDNURL}${user.id}/${pdf.pdfname}`}
-                    target="_blank"
+                  <a 
+                    href={`${CDNURL}${user.id}/${pdf.pdfname}`} 
+                    target="_blank" 
                     rel="noopener noreferrer"
                   >
                     {t('mycertificates.viewpdf')}
@@ -264,3 +308,4 @@ function MyCertificates() {
 }
 
 export default MyCertificates;
+
