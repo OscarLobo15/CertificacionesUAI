@@ -68,6 +68,14 @@
       "name": "Nombre",
       "lastname": "Apellido",
       "career": "Carrera"
+    },
+    "dashboard":{
+      "title": "Dashboard Analitico",
+      "chart1": "Numero de Estudiantes por Carrera",
+      "chart2": "Numero de Certificaciones por Carrera",
+      "chart3": "Certificaciones Mas Comunes",
+      "user": "Usado por",
+      "user2": "usuarios"
     }
   
   }

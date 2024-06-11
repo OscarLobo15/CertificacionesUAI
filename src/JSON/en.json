@@ -69,5 +69,14 @@
       "name": "Name",
       "lastname": "Last Name",
       "career": "Career"
+    },
+    "dashboard":{
+      "title": "Analytics Dashboard",
+      "chart1": "Number of Students Per Career",
+      "chart2": "Number of Certificates Per Career",
+      "chart3": "Most Common Certificates",
+      "user": "used by ",
+      "user2": "users"
     }
+  
   }
