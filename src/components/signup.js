@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import '../CSS/signup.css'; // Importa los estilos CSS
 import { useTranslation } from 'react-i18next';
+import signupImage from '../pictures/LogoUAI.png'; // Importa la imagen
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -43,6 +44,7 @@ const SignUp = () => {
   return (
     <div className="signup-container">
       <div className="signup-box">
+        <img src={signupImage} alt="Sign Up" className="signup-image" /> {/* Añadir la imagen aquí */}
         <h2 className="signup-title">{t('signup.title')}</h2>
         <form className="signup-form" onSubmit={handleSubmit}>
           <input

@@ -2,7 +2,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  
   "dependencies": {
     "@auth0/auth0-react": "^1.12.1",
     "@fortawesome/fontawesome-free": "^6.5.2",
@@ -23,9 +22,10 @@
     "express-openid-connect": "^2.17.1",
     "i18next": "^23.10.1",
     "jwks-rsa": "^2.1.5",
+    "loglevel": "^1.9.1",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1",
-    "pdfjs-dist": "^4.1.392",
+    "pdfjs-dist": "^4.3.136",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
@@ -66,6 +66,7 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.19",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
   }

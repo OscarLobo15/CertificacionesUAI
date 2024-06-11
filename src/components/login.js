@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import '../CSS/login.css'; // Importa los estilos CSS
 import { useTranslation } from 'react-i18next';
+import loginImage from '../pictures/LogoUAI.png'; // Importa la imagen
 
 const Login = ({ setToken }) => {
   const { t, i18n } = useTranslation();
@@ -47,6 +48,7 @@ const Login = ({ setToken }) => {
   return (
     <div className="login-container">
       <div className="login-box">
+        <img src={loginImage} alt="Login" className="login-image" /> {/* Añadir la imagen aquí */}
         <h2 className="login-title">{t('login.title')}</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <input 
