@@ -42,29 +42,31 @@ const AdminPanel = () => {
     fetchUserCareer();
   }, []);
 
-  useEffect(() => {
-    const fetchCertificates = async () => {
-      try {
-        if (!userCareer) return;
+  const fetchCertificates = async () => {
+    try {
+      if (!userCareer) return;
 
-        const { data: certificatesData, error: certificatesError } = await supabase
-          .from('certificates')
-          .select('id, certificate_name, val_type')
-          .eq('career', userCareer);
+      const { data: certificatesData, error: certificatesError } = await supabase
+        .from('certificates')
+        .select('id, certificate_name, val_type')
+        .eq('career', userCareer);
 
-        if (certificatesError) {
-          throw certificatesError;
-        }
-
-        setCertificates(certificatesData);
-      } catch (error) {
-        console.error('Error fetching certificates:', error);
-      } finally {
-        setLoading(false);
+      if (certificatesError) {
+        throw certificatesError;
       }
-    };
 
+      setCertificates(certificatesData);
+    } catch (error) {
+      console.error('Error fetching certificates:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchCertificates();
+    const intervalId = setInterval(fetchCertificates, 5000);
+    return () => clearInterval(intervalId);
   }, [userCareer]);
 
   const handleValTypeChange = async (certId, newValType) => {
@@ -87,8 +89,6 @@ const AdminPanel = () => {
       console.error('Error updating validation type:', error);
     }
   };
-
-
 
   return (
     <Container align="center" className="container-sm mt-4">

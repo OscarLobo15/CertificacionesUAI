@@ -1,182 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '../supabaseClient';
-import { Container, Table, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../context/UserContext';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import '../CSS/admin.css';
-import log from '../logger';
+import { Button } from 'react-bootstrap';
+import '../CSS/profile.css';
 
-const CDNURL = "https://hvcusyfentyezvuopvzd.supabase.co/storage/v1/object/public/pdf/";
-
-const AdminPage = () => {
-  const [pdfInfos, setPdfInfos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { t, i18n } = useTranslation();
-  const [initialized, setInitialized] = useState(false);
+function Profile() {
+  const { t } = useTranslation();
+  const { user: initialUser, userInfo: initialUserInfo } = useContext(UserContext);
+  const [user, setUser] = useState(initialUser);
+  const [userInfo, setUserInfo] = useState(initialUserInfo);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedLanguage = localStorage.getItem('language');
-    if (storedLanguage) {
-      i18n.changeLanguage(storedLanguage);
-    }
-    setInitialized(true);
-  }, [i18n]);
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    localStorage.setItem('language', lng);
-  };
-
-  useEffect(() => {
-    const fetchAllPdfs = async () => {
-      log.debug('Fetching all PDFs from database');
-      try {
-        const { data: pdfsData, error: pdfsError } = await supabase
-          .from('pdfinfo')
-          .select('pdfname, userid, verificate');
-
-        if (pdfsError) {
-          throw pdfsError;
-        }
-
-        const pdfInfos = [];
-
-        for (const pdf of pdfsData) {
-          const { data: userInfo, error: userError } = await supabase
-            .from('userinfo')
-            .select('name, lastname, career')
-            .eq('userid', pdf.userid)
-            .single();
-
-          if (userError) {
-            log.error('Error fetching user info:', userError);
-            continue;
-          }
-
-          const { data: certificateInfo, error: certificateError } = await supabase
-            .from('certificates')
-            .select('val_type')
-            .eq('certificate_name', pdf.pdfname)
-            .single();
-
-          if (certificateError) {
-            log.error('Error fetching certificate info:', certificateError);
-            continue;
-          }
-
-          pdfInfos.push({
-            fileName: pdf.pdfname,
-            userId: pdf.userid,
-            verificate: pdf.verificate,
-            verificationType: certificateInfo.val_type,
-            ...userInfo
-          });
-        }
-
-        setPdfInfos(pdfInfos);
-        log.info('PDFs and user info successfully fetched');
-      } catch (error) {
-        log.error('Error fetching PDFs and user info:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAllPdfs();
-  }, []);
-
-  const handleVerify = async (pdf) => {
-    log.debug(`Verifying PDF: ${pdf.fileName} for user: ${pdf.userId}`);
-    try {
-      const currentDate = new Date().toISOString();
-      const { data: { session } } = await supabase.auth.getSession();
-      const userEmail = session?.user?.email;
-
-      const { error } = await supabase
-        .from('pdfinfo')
-        .update({ verificate: true, time_ver: currentDate, user_ver: userEmail })
-        .eq('pdfname', pdf.fileName)
-        .eq('userid', pdf.userId);
-
-      if (error) {
-        throw error;
-      }
-
-      setPdfInfos((prevPdfInfos) =>
-        prevPdfInfos.map((p) =>
-          p.fileName === pdf.fileName && p.userId === pdf.userId
-            ? { ...p, verificate: true }
-            : p
-        )
-      );
-
-      log.info(`PDF verified successfully: ${pdf.fileName}`);
-    } catch (error) {
-      log.error('Error verifying PDF:', error);
-    }
-  };
-
-
   const navigateToAdminPanel = () => {
-    navigate('/tipovalidacion');
+    navigate('/crearcuenta');
   };
+
+  useEffect(() => {
+    setUser(initialUser);
+    setUserInfo(initialUserInfo);
+  }, [initialUser, initialUserInfo]);
 
   return (
-    <Container align="center" className="container-sm mt-4">
-      <h1>{t('admin.title')}</h1>
-      <Button variant="primary" onClick={navigateToAdminPanel} className="mb-4">
-      {t('admin.admin2button')}
-      </Button>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>{t('admin.pdfname')}</th>
-            <th>{t('admin.username')}</th>
-            <th>{t('admin.career')}</th>
-            <th>{t('admin.vertype')}</th>
-            <th>{t('admin.status')}</th>
-            <th>{t('admin.link')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pdfInfos.map((pdf, index) => (
-            <tr key={index}>
-              <td>{pdf.fileName}</td>
-              <td>{`${pdf.name} ${pdf.lastname}`}</td>
-              <td>{t(pdf.career)}</td>
-              <td>{pdf.verificationType === 'manual' ? t('admin.manual') : pdf.verificationType === 'automatic' ? t('admin.automatic') : ''}</td>
-              <td>
-                {pdf.verificate ? (
-                  <span>{t('admin.verification')}</span>
-                ) : (
-                  pdf.verificationType === 'manual' && (
-                    <Button
-                      variant="success"
-                      onClick={() => handleVerify(pdf)}
-                      className="ml-2 custom-button"
-                    >
-                      {t('admin.verbutton')}
-                    </Button>
-                  )
-                )}
-              </td>
-              <td>
-                <a
-                  href={`${CDNURL}${pdf.userId}/${pdf.fileName}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('admin.viewpdf')}
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Container>
+    <div className="profile-container">
+      <div className="profile-card">
+        <h2 className="profile-title">{t('profile.title')}</h2>
+        {user && (
+          <div className="profile-info">
+            <p>
+              <strong>{t('profile.email')}:</strong> {user.email}
+            </p>
+            {userInfo && (
+              <div>
+                <p>
+                  <strong>{t('profile.name')}:</strong> {userInfo.name}
+                </p>
+                <p>
+                  <strong>{t('profile.lastname')}:</strong> {userInfo.lastname}
+                </p>
+                <p>
+                  <strong>{t('profile.career')}:</strong> {t(userInfo.career)}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+        <div className="profile-button-container">
+          <Button variant="primary" onClick={navigateToAdminPanel}>
+            {t('profile.editButton')}
+          </Button>
+        </div>
+      </div>
+    </div>
   );
-};
+}
 
-export default AdminPage;
+export default Profile;

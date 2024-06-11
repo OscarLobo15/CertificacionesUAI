@@ -3,7 +3,7 @@ import { UserContext } from '../context/UserContext';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import '../CSS/profile.css';  // Importamos el archivo CSS
+import '../CSS/profile.css';
 
 function Profile() {
   const { t } = useTranslation();
