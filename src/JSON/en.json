@@ -84,7 +84,10 @@
         "verbutton": "Verify",
         "viewpdf": "Open PDF",
         "manual": "Manual",
-        "automatic": "Automatic"
+        "automatic": "Automatic",
+        "alertInfo": "Are you sure you want to verify this certificate? You will not be able to undo this action.",
+        "alertyes": "Yes",
+        "alertno": "No"
       },
       "admin2": {
         "title": "Certificates of",
@@ -121,7 +124,8 @@
         "verificate": "Status",
         "viewpdf": "Open PDF",
         "verificateyes": "Verified",
-        "verificateno": "Not Verified"
+        "verificateno": "Not Verified",
+        "uploading": "Uploading Certificate"
       },
     
      

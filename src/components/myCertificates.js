@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
 import { supabase } from '../supabaseClient';
 import '../CSS/myCertificates.css';
-import { Container, Table } from 'react-bootstrap';
+import { Container, Table, Modal, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -20,6 +20,7 @@ function MyCertificates() {
   const [fileNameOptions, setFileNameOptions] = useState([]);
   const [pdfInfos, setPdfInfos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const { t, i18n } = useTranslation();
   const [initialized, setInitialized] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -124,6 +125,7 @@ function MyCertificates() {
 
   const uploadFile = async () => {
     if (selectedFile && newFileName && user && user.id && userInfo) {
+      setUploading(true);
       const { name: firstName, lastname: lastName } = userInfo;
 
       console.log('Nombre del usuario:', firstName);
@@ -144,7 +146,7 @@ function MyCertificates() {
 
         const validationType = certData.val_type;
 
-        if (validationType === 'automatic') {
+        if (validationType === 'automatic' || validationType === 'automatico') {
           const content = await readPDFContent(selectedFile);
 
           if (verifyPDFContent(content, firstName, lastName)) {
@@ -215,6 +217,8 @@ function MyCertificates() {
         }
       } catch (error) {
         console.error('Error reading or verifying PDF:', error);
+      } finally {
+        setUploading(false);
       }
     }
   };
@@ -243,8 +247,6 @@ function MyCertificates() {
   useEffect(() => {
     if (user && user.id) {
       fetchAllPdfs();
-      const intervalId = setInterval(fetchAllPdfs, 5000);
-      return () => clearInterval(intervalId);
     }
   }, [user]);
 
@@ -273,6 +275,15 @@ function MyCertificates() {
       >
         {t('mycertificates.filebutton')}
       </button>
+
+      {uploading && (
+        <Modal show={true} centered>
+          <Modal.Body className="text-center">
+            <Spinner animation="border" />
+            <p>{t('mycertificates.uploading')}</p>
+          </Modal.Body>
+        </Modal>
+      )}
 
       <h2>{t('mycertificates.myfiles')}</h2>
       <Container align="center" className="container-sm mt-4">
@@ -310,3 +321,4 @@ function MyCertificates() {
 }
 
 export default MyCertificates;
+

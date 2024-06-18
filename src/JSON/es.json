@@ -83,7 +83,10 @@
       "verbutton": "Verificar",
       "viewpdf": "Abrir PDF",
       "manual": "Manual",
-      "automatic": "Automático"
+      "automatic": "Automático",
+      "alertInfo": "¿Está seguro que desea verificar este certificado? No podrá deshacer esta acción.",
+      "alertyes": "Sí",
+      "alertno": "No"
     },
     "admin2":{
       "title": "Certificados de",
@@ -123,7 +126,8 @@
       "verificate": "Estado",
       "viewpdf": "Abrir PDF",
       "verificateyes": "Verificado",
-      "verificateno": "No verificado"
+      "verificateno": "No verificado",
+      "uploading": "Subiendo Certificado"
 
 
      

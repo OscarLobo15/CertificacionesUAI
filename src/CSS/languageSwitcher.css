@@ -3,7 +3,7 @@
   display: flex;
   justify-content: flex-end;
   background-color: #343a40; /* Color de fondo oscuro */
-  padding: 10px;
+  padding: 5px;
 }
 
 .language-switcher-button {
@@ -79,7 +79,7 @@
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1199px) {
   .language-switcher-container {
-    padding: 12px;
+    padding: 5px;
   }
 
   .language-switcher-button {
@@ -91,7 +91,7 @@
 /* Desktop */
 @media (min-width: 1200px) {
   .language-switcher-container {
-    padding: 14px;
+    padding: 5px;
   }
 
   .language-switcher-button {

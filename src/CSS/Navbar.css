@@ -2,7 +2,7 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 15px;
 }
 
 .navbar-nav {
@@ -65,7 +65,7 @@
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1199px) {
   .navbar {
-    padding: 15px;
+    padding: 10px;
   }
 
   .nav-link {
@@ -76,7 +76,7 @@
 /* Desktop */
 @media (min-width: 1200px) {
   .navbar {
-    padding: 20px;
+    padding: 15px;
   }
 
   .nav-link {
