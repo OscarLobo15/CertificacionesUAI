@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import '../CSS/Navbar.css';
 import { supabase } from '../supabaseClient';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function NavBar() {
   const [session, setSession] = useState(null);
-  const [role, setRole] = useState(null); // Estado para almacenar el rol del usuario
+  const [role, setRole] = useState(null);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ function NavBar() {
   async function handleLogout() {
     await supabase.auth.signOut();
     setSession(null);
-    setRole(null); // Resetear el rol del usuario al cerrar sesión
+    setRole(null);
     navigate('/home');
   }
 
@@ -74,82 +74,161 @@ function NavBar() {
   }, []);
 
   return (
-    <div className="navbar navbar-expand-lg bg-primary p-6 d-flex justify-content-between bg-ffc107">
-      <div className="topnav">
-        <ul className="navbar-nav mx-auto">
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/home">
-              {t('navbar.home')}
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/carreras">
-              {t('navbar.certificates')}
-            </NavLink>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <ul className="navbar-nav mx.auto justify-content">
-          {session && role === 'Estudiante' && (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary py-3">
+      <div className="container-fluid">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/miscertificados">
-                {t('navbar.myCertificates')}
+              <NavLink
+                className="nav-link fs-5 text-white"
+                to="/home"
+                style={({ isActive }) =>
+                  isActive
+                    ? {
+                        backgroundColor: '#034574',
+                        borderRadius: '0.5rem',
+                        padding: '0.5rem 1rem',
+                      }
+                    : {}
+                }
+              >
+                {t('navbar.home')}
               </NavLink>
             </li>
-          )}
-          {session && role === 'Administrador' && (
             <li className="nav-item">
-              <NavLink className="nav-link" to="/administracion">
-                {t('navbar.admin')}
+              <NavLink
+                className="nav-link fs-5 text-white"
+                to="/carreras"
+                style={({ isActive }) =>
+                  isActive
+                    ? {
+                        backgroundColor: '#034574',
+                        borderRadius: '0.5rem',
+                        padding: '0.5rem 1rem',
+                      }
+                    : {}
+                }
+              >
+                {t('navbar.certificates')}
               </NavLink>
             </li>
-          )}
-          {session && role === 'Administrador' && (
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/estadisticas">
-                {t('navbar.stats')}
-              </NavLink>
-            </li>
-          )}
-          <li className="nav-item">
-            {session ? (
-              <button className="nav-link" onClick={handleLogout}>
-                {t('navbar.logOut')}
-              </button>
-            ) : (
-              <NavLink className="nav-link" to="/login">
-                {t('navbar.logIn')}
-              </NavLink>
-            )}
-          </li>
-          {session && (
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/profile">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-user-circle"
-                  width="44"
-                  height="44"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="#fff"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            {session && role === 'Estudiante' && (
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link fs-5 text-white"
+                  to="/miscertificados"
+                  style={({ isActive }) =>
+                    isActive
+                      ? {
+                          backgroundColor: '#034574',
+                          borderRadius: '0.5rem',
+                          padding: '0.5rem 1rem',
+                        }
+                      : {}
+                  }
                 >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                  <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                  <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-                </svg>
-                {t('navbar.account')}
-              </NavLink>
+                  {t('navbar.myCertificates')}
+                </NavLink>
+              </li>
+            )}
+            {session && role === 'Administrador' && (
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link fs-5 text-white"
+                  to="/administracion"
+                  style={({ isActive }) =>
+                    isActive
+                      ? {
+                          backgroundColor: '#034574',
+                          borderRadius: '0.5rem',
+                          padding: '0.5rem 1rem',
+                        }
+                      : {}
+                  }
+                >
+                  {t('navbar.admin')}
+                </NavLink>
+              </li>
+            )}
+            {session && role === 'Administrador' && (
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link fs-5 text-white"
+                  to="/estadisticas"
+                  style={({ isActive }) =>
+                    isActive
+                      ? {
+                          backgroundColor: '#034574',
+                          borderRadius: '0.5rem',
+                          padding: '0.5rem 1rem',
+                        }
+                      : {}
+                  }
+                >
+                  {t('navbar.stats')}
+                </NavLink>
+              </li>
+            )}
+          </ul>
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              {session ? (
+                <button className="btn btn-outline-light me-2" onClick={handleLogout}>
+                  {t('navbar.logOut')}
+                </button>
+              ) : (
+                <NavLink
+                  className="nav-link fs-5 text-white"
+                  to="/login"
+                  style={({ isActive }) =>
+                    isActive
+                      ? {
+                          backgroundColor: '#034574',
+                          borderRadius: '0.5rem',
+                          padding: '0.5rem 1rem',
+                        }
+                      : {}
+                  }
+                >
+                  {t('navbar.logIn')}
+                </NavLink>
+              )}
             </li>
-          )}
-        </ul>
+            {session && (
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link fs-5 text-white"
+                  to="/profile"
+                  style={({ isActive }) =>
+                    isActive
+                      ? {
+                          backgroundColor: '#034574',
+                          borderRadius: '0.5rem',
+                          padding: '0.5rem 1rem',
+                        }
+                      : {}
+                  }
+                >
+                  <i className="bi bi-person-circle me-2"></i>
+                  {t('navbar.account')}
+                </NavLink>
+              </li>
+            )}
+          </ul>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 }
 

@@ -84,6 +84,7 @@
       "viewpdf": "Abrir PDF",
       "manual": "Manual",
       "automatic": "Automático",
+      "alerttitle": "Confirmación de Verificación",
       "alertInfo": "¿Está seguro que desea verificar este certificado? No podrá deshacer esta acción.",
       "alertyes": "Sí",
       "alertno": "No"

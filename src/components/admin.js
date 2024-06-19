@@ -196,7 +196,7 @@ const AdminPage = () => {
 
       <Modal show={showConfirmModal} onHide={handleCancelVerify} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmación de Verificación</Modal.Title>
+          <Modal.Title>{t('admin.alerttitle')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         {t('admin.alertInfo')}

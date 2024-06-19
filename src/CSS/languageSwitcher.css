@@ -2,15 +2,15 @@
 .language-switcher-container {
   display: flex;
   justify-content: flex-end;
-  background-color: #343a40; /* Color de fondo oscuro */
+  background-color: #343a40;
   padding: 5px;
 }
 
 .language-switcher-button {
-  background-color: #343a40; /* Color de fondo oscuro */
-  color: #ffffff; /* Color del texto */
+  background-color: #343a40;
+  color: #ffffff;
   border: none;
-  padding: 8px 16px;
+  padding: 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -20,14 +20,14 @@
 }
 
 .language-switcher-button:hover {
-  background-color: #495057; /* Color de fondo más oscuro al pasar el mouse */
+  background-color: #495057;
 }
 
 .language-switcher-dropdown {
   position: absolute;
-  background-color: #343a40; /* Color de fondo oscuro */
-  color: #ffffff; /* Color del texto */
-  padding: 10px;
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 5px;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -39,7 +39,7 @@
   background-color: transparent;
   color: #ffffff;
   border: none;
-  padding: 8px 16px;
+  padding: 5px;
   text-align: left;
   text-decoration: none;
   display: block;
@@ -49,7 +49,7 @@
 }
 
 .language-switcher-dropdown button:hover {
-  background-color: #495057; /* Color de fondo más oscuro al pasar el mouse */
+  background-color: #495057;
 }
 
 .language-switcher-dropdown button:disabled {
@@ -62,12 +62,11 @@
 /* Smartphone */
 @media (max-width: 767px) {
   .language-switcher-container {
-    justify-content: center; /* Centra el botón de cambio de idioma */
+    justify-content: center;
   }
 
   .language-switcher-button {
     font-size: 12px;
-    padding: 6px 12px;
   }
 
   .language-switcher-dropdown {
@@ -84,7 +83,7 @@
 
   .language-switcher-button {
     font-size: 14px;
-    padding: 8px 16px;
+    padding: 5px;
   }
 }
 
@@ -96,6 +95,6 @@
 
   .language-switcher-button {
     font-size: 16px;
-    padding: 10px 20px;
+    padding: 5px;
   }
 }

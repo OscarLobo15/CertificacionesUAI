@@ -85,6 +85,7 @@
         "viewpdf": "Open PDF",
         "manual": "Manual",
         "automatic": "Automatic",
+        "alerttitle": "Verification Confirmation",
         "alertInfo": "Are you sure you want to verify this certificate? You will not be able to undo this action.",
         "alertyes": "Yes",
         "alertno": "No"
