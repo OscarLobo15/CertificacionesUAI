@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import { Container, Table, Button, Modal } from 'react-bootstrap';
+import { Container, Table, Button, Modal, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -147,59 +147,69 @@ const AdminPage = () => {
       <Button variant="primary" onClick={navigateToAdminPanel} className="mb-4">
         {t('admin.admin2button')}
       </Button>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>{t('admin.pdfname')}</th>
-            <th>{t('admin.username')}</th>
-            <th>{t('admin.career')}</th>
-            <th>{t('admin.vertype')}</th>
-            <th>{t('admin.status')}</th>
-            <th>{t('admin.link')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pdfInfos.map((pdf, index) => (
-            <tr key={index}>
-              <td>{pdf.fileName}</td>
-              <td>{`${pdf.name} ${pdf.lastname}`}</td>
-              <td>{t(pdf.career)}</td>
-              <td>{pdf.verificationType === 'manual' ? t('admin.manual') : pdf.verificationType === 'automatic' ? t('admin.automatic') : t('admin.automatic')}</td>
-              <td>
-                {pdf.verificate ? (
-                  <span>{t('admin.verification')}</span>
-                ) : (
-                  pdf.verificationType === 'manual' && (
-                    <Button
-                      variant="success"
-                      onClick={() => handleVerifyClick(pdf)}
-                      className="ml-2 custom-button"
-                    >
-                      {t('admin.verbutton')}
-                    </Button>
-                  )
-                )}
-              </td>
-              <td>
-                <a
-                  href={`${CDNURL}${pdf.userId}/${pdf.fileName}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('admin.viewpdf')}
-                </a>
-              </td>
+
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+          <Spinner animation="border" role="status">
+            <span className="sr-only"></span>
+          </Spinner>
+          <span className="ml-2">   {t('admin.loading')}</span>
+        </div>
+      ) : (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>{t('admin.pdfname')}</th>
+              <th>{t('admin.username')}</th>
+              <th>{t('admin.career')}</th>
+              <th>{t('admin.vertype')}</th>
+              <th>{t('admin.status')}</th>
+              <th>{t('admin.link')}</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {pdfInfos.map((pdf, index) => (
+              <tr key={index}>
+                <td>{pdf.fileName}</td>
+                <td>{`${pdf.name} ${pdf.lastname}`}</td>
+                <td>{t(pdf.career)}</td>
+                <td>{pdf.verificationType === 'manual' ? t('admin.manual') : pdf.verificationType === 'automatic' ? t('admin.automatic') : t('admin.automatic')}</td>
+                <td>
+                  {pdf.verificate ? (
+                    <span>{t('admin.verification')}</span>
+                  ) : (
+                    pdf.verificationType === 'manual' && (
+                      <Button
+                        variant="success"
+                        onClick={() => handleVerifyClick(pdf)}
+                        className="ml-2 custom-button"
+                      >
+                        {t('admin.verbutton')}
+                      </Button>
+                    )
+                  )}
+                </td>
+                <td>
+                  <a
+                    href={`${CDNURL}${pdf.userId}/${pdf.fileName}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t('admin.viewpdf')}
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
 
       <Modal show={showConfirmModal} onHide={handleCancelVerify} centered>
         <Modal.Header closeButton>
           <Modal.Title>{t('admin.alerttitle')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        {t('admin.alertInfo')}
+          {t('admin.alertInfo')}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCancelVerify}>
@@ -215,5 +225,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
-

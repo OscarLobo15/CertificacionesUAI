@@ -87,7 +87,8 @@
       "alerttitle": "Confirmación de Verificación",
       "alertInfo": "¿Está seguro que desea verificar este certificado? No podrá deshacer esta acción.",
       "alertyes": "Sí",
-      "alertno": "No"
+      "alertno": "No",
+      "loading": "Se están cargando los datos..."
     },
     "admin2":{
       "title": "Certificados de",
@@ -138,6 +139,7 @@
       "chart1": "Numero de Estudiantes por Carrera",
       "chart2": "Numero de Certificaciones por Carrera",
       "chart3": "Certificaciones Mas Comunes",
+      "chart4": "Cantidad de Certificados subidos",
       "user": "Usado por",
       "user2": "usuarios"
     }

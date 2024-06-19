@@ -88,7 +88,8 @@
         "alerttitle": "Verification Confirmation",
         "alertInfo": "Are you sure you want to verify this certificate? You will not be able to undo this action.",
         "alertyes": "Yes",
-        "alertno": "No"
+        "alertno": "No",
+        "loading": "Data is being loaded..."
       },
       "admin2": {
         "title": "Certificates of",
@@ -134,6 +135,7 @@
       "title": "Analytics Dashboard",
       "chart1": "Number of Students Per Career",
       "chart2": "Number of Certificates Per Career",
+      "chart4": "Number of Certificates Uploaded",
       "chart3": "Most Common Certificates",
       "user": "used by ",
       "user2": "users"
